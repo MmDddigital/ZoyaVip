@@ -1,325 +1,90 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="theme-color" content="#09090f" />
-  <meta name="description" content="ZoyaVIP — private video chat and fun conversations. Join on Telegram for just ₹69." />
-  <title>ZoyaVIP — Private Video Chat</title>
-
-  <style>
-    :root{
-      --bg:#09090f;
-      --card:#12121b;
-      --card2:#171722;
-      --text:#f7f7fb;
-      --muted:#a6a6b7;
-      --accent:#ff3f8e;
-      --accent2:#9b5cff;
-      --line:rgba(255,255,255,.09);
-      --shadow:0 24px 70px rgba(0,0,0,.45);
-    }
-    *{box-sizing:border-box;margin:0;padding:0}
-    html{scroll-behavior:smooth}
-    body{
-      font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
-      background:
-        radial-gradient(circle at 15% 10%, rgba(255,63,142,.14), transparent 30%),
-        radial-gradient(circle at 85% 20%, rgba(155,92,255,.16), transparent 30%),
-        var(--bg);
-      color:var(--text);
-      line-height:1.55;
-      overflow-x:hidden;
-    }
-    a{text-decoration:none;color:inherit}
-    .container{width:min(1120px,92%);margin:auto}
-
-    /* Header */
-    header{
-      position:fixed;top:0;left:0;right:0;z-index:20;
-      background:rgba(9,9,15,.72);
-      backdrop-filter:blur(16px);
-      border-bottom:1px solid var(--line);
-    }
-    .nav{height:72px;display:flex;align-items:center;justify-content:space-between}
-    .brand{display:flex;align-items:center;gap:12px;font-weight:900;font-size:21px;letter-spacing:.3px}
-    .brand-mark{
-      width:42px;height:42px;border:1px dashed rgba(255,255,255,.25);
-      border-radius:12px;display:grid;place-items:center;color:#777;
-      font-size:10px;text-align:center;
-    }
-    .nav-cta{
-      padding:10px 17px;border-radius:999px;background:#fff;color:#0b0b11;
-      font-weight:800;font-size:14px;
-    }
-
-    /* Hero */
-    .hero{min-height:760px;padding:145px 0 85px;display:grid;place-items:center;position:relative}
-    .hero-grid{display:grid;grid-template-columns:1.08fr .92fr;gap:60px;align-items:center}
-    .eyebrow{
-      display:inline-flex;align-items:center;gap:8px;padding:7px 12px;
-      border:1px solid var(--line);border-radius:999px;color:#ddd;font-size:12px;
-      background:rgba(255,255,255,.035);margin-bottom:22px
-    }
-    .dot{width:7px;height:7px;border-radius:50%;background:#41e28a;box-shadow:0 0 15px #41e28a}
-    h1{font-size:clamp(44px,6.2vw,76px);line-height:.98;letter-spacing:-3.5px;max-width:700px}
-    .gradient{background:linear-gradient(90deg,#fff 10%,#ff75aa 55%,#b68aff);-webkit-background-clip:text;background-clip:text;color:transparent}
-    .hero p{margin:25px 0 30px;max-width:590px;color:var(--muted);font-size:18px}
-    .actions{display:flex;gap:12px;flex-wrap:wrap}
-    .btn{
-      display:inline-flex;align-items:center;justify-content:center;gap:9px;
-      padding:15px 23px;border-radius:14px;font-weight:850;border:1px solid var(--line);
-      transition:.25s transform,.25s box-shadow,.25s background;
-    }
-    .btn:hover{transform:translateY(-3px)}
-    .btn-primary{background:linear-gradient(135deg,var(--accent),var(--accent2));box-shadow:0 12px 32px rgba(255,63,142,.22)}
-    .btn-secondary{background:rgba(255,255,255,.045)}
-    .price{display:inline-flex;align-items:baseline;gap:5px;margin-top:17px;color:#c7c7d5;font-size:13px}
-    .price strong{font-size:28px;color:#fff}
-
-    /* Visual card */
-    .visual{position:relative}
-    .profile-card{
-      position:relative;min-height:500px;border:1px solid var(--line);border-radius:30px;
-      background:linear-gradient(145deg,rgba(255,255,255,.07),rgba(255,255,255,.025));
-      box-shadow:var(--shadow);overflow:hidden;padding:22px;display:flex;align-items:flex-end;
-    }
-    .profile-placeholder{
-      position:absolute;inset:0;
-      background:
-        linear-gradient(rgba(8,8,14,.18), rgba(8,8,14,.42)),
-        url("https://images.pexels.com/photos/29065363/pexels-photo-29065363.jpeg?cs=srgb&dl=pexels-adarsh-mp-29065363.jpg&fm=jpg") center/cover no-repeat;
-      display:grid;place-items:center;color:rgba(255,255,255,.34);
-      font-size:12px;letter-spacing:1px;text-transform:uppercase;
-    }
-    .profile-placeholder::before{
-      content:"";
-      width:180px;height:180px;border-radius:50%;
-      border:2px solid rgba(255,255,255,.28);
-      background:url("https://images.pexels.com/photos/29065363/pexels-photo-29065363.jpeg?cs=srgb&dl=pexels-adarsh-mp-29065363.jpg&fm=jpg") center/cover no-repeat;
-      display:block;
-      box-shadow:0 12px 35px rgba(0,0,0,.35);
-    }
-    .profile-info{
-      position:relative;z-index:2;width:100%;padding:20px;border-radius:21px;
-      background:rgba(7,7,12,.66);backdrop-filter:blur(13px);border:1px solid var(--line)
-    }
-    .live{color:#68ef9e;font-size:12px;font-weight:800}
-    .profile-info h3{font-size:25px;margin:5px 0}
-    .profile-info p{color:#aaaabd;font-size:13px;margin:0}
-    .floating{
-      position:absolute;z-index:3;background:#191923;border:1px solid var(--line);
-      border-radius:14px;padding:11px 14px;font-size:12px;box-shadow:var(--shadow)
-    }
-    .float1{top:30px;right:-15px}.float2{bottom:70px;left:-20px}
-
-    /* Sections */
-    section{padding:90px 0}
-    .section-head{text-align:center;max-width:700px;margin:0 auto 45px}
-    .section-head span{color:#ff72a8;font-size:12px;font-weight:900;text-transform:uppercase;letter-spacing:2px}
-    .section-head h2{font-size:clamp(31px,4vw,48px);letter-spacing:-1.8px;margin:8px 0 12px}
-    .section-head p{color:var(--muted)}
-    .cards{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
-    .card{
-      background:rgba(255,255,255,.035);border:1px solid var(--line);border-radius:22px;
-      padding:28px;transition:.25s transform,.25s background
-    }
-    .card:hover{transform:translateY(-6px);background:rgba(255,255,255,.055)}
-    .icon{
-      width:48px;height:48px;border-radius:15px;display:grid;place-items:center;
-      background:linear-gradient(135deg,rgba(255,63,142,.18),rgba(155,92,255,.18));
-      margin-bottom:18px;font-size:21px
-    }
-    .card h3{font-size:18px;margin-bottom:8px}
-    .card p{font-size:14px;color:var(--muted)}
-
-    /* Offer */
-    .offer{
-      background:linear-gradient(135deg,rgba(255,63,142,.13),rgba(155,92,255,.12));
-      border:1px solid rgba(255,255,255,.11);border-radius:30px;padding:50px;
-      display:grid;grid-template-columns:1fr auto;gap:30px;align-items:center
-    }
-    .offer h2{font-size:clamp(34px,5vw,55px);letter-spacing:-2px}
-    .offer p{color:#bdbdca;margin-top:10px}
-    .offer-price{text-align:center;min-width:210px}
-    .offer-price .amount{font-size:64px;font-weight:950;line-height:1}
-    .offer-price small{color:#aaa;font-weight:700}
-    .offer-price .btn{width:100%;margin-top:18px}
-
-    /* FAQ */
-    .faq{max-width:800px;margin:auto}
-    details{border-bottom:1px solid var(--line);padding:20px 0}
-    summary{cursor:pointer;font-weight:800;list-style:none;display:flex;justify-content:space-between;gap:20px}
-    summary::-webkit-details-marker{display:none}
-    summary::after{content:"+";color:#ff72a8;font-size:22px}
-    details[open] summary::after{content:"−"}
-    details p{color:var(--muted);padding-top:12px;font-size:14px}
-
-    footer{border-top:1px solid var(--line);padding:30px 0;color:#858594;font-size:12px}
-    .footer-row{display:flex;justify-content:space-between;gap:20px;align-items:center}
-    .age{color:#ff91b7}
-
-    @media(max-width:820px){
-      .hero-grid{grid-template-columns:1fr;gap:35px}
-      .hero{padding-top:125px}
-      .visual{max-width:540px;margin:auto;width:100%}
-      .profile-card{min-height:440px}
-      .cards{grid-template-columns:1fr}
-      .offer{grid-template-columns:1fr;padding:34px}
-      .offer-price{max-width:240px}
-      .footer-row{flex-direction:column;text-align:center}
-    }
-    @media(max-width:520px){
-      h1{letter-spacing:-2.4px}
-      .hero p{font-size:16px}
-      .nav-cta{padding:9px 13px}
-      .profile-card{min-height:400px;border-radius:23px}
-      .float1{right:8px}.float2{left:8px}
-      section{padding:70px 0}
-    }
-  </style>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="ZoyaVIP - simple, friendly online conversations. Join us on Telegram.">
+<meta name="theme-color" content="#09090f">
+<title>ZoyaVIP — Connect & Chat</title>
+  <!-- Meta Pixel Code -->
+<script>
+!function(f,b,e,v,n,t,s)
+{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];
+s.parentNode.insertBefore(t,s)}(window, document,'script',
+'https://connect.facebook.net/en_US/fbevents.js');
+fbq('init', '1419052990170207');
+fbq('track', 'PageView');
+</script>
+<noscript><img height="1" width="1" style="display:none"
+src="https://www.facebook.com/tr?id=1419052990170207&ev=PageView&noscript=1"
+/></noscript>
+<!-- End Meta Pixel Code -->
+<style>
+:root{--bg:#09090f;--card:#13131d;--text:#f8f8fb;--muted:#a7a7b7;--pink:#ff3f8e;--purple:#8b5cf6;--line:rgba(255,255,255,.1)}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;font-family:Inter,system-ui,-apple-system,Segoe UI,sans-serif;background:radial-gradient(circle at 15% 10%,#ff3f8e22,transparent 30%),radial-gradient(circle at 85% 15%,#8b5cf622,transparent 30%),var(--bg);color:var(--text)}
+a{text-decoration:none;color:inherit}.wrap{width:min(1080px,92%);margin:auto}
+header{position:fixed;inset:0 0 auto;z-index:10;background:#09090fcc;backdrop-filter:blur(14px);border-bottom:1px solid var(--line)}
+.nav{height:70px;display:flex;align-items:center;justify-content:space-between}.brand{display:flex;align-items:center;gap:11px;font-size:21px;font-weight:900}
+.logo{width:42px;height:42px;border-radius:12px;overflow:hidden;border:1px solid var(--line)}.logo img{width:100%;height:100%;object-fit:cover;display:block}
+.navbtn,.btn{border-radius:13px;font-weight:800;display:inline-flex;align-items:center;justify-content:center;transition:.2s}.navbtn{background:#fff;color:#08080d;padding:10px 16px;font-size:14px}
+.hero{padding:145px 0 80px;min-height:720px;display:grid;align-items:center}.grid{display:grid;grid-template-columns:1.05fr .95fr;gap:55px;align-items:center}
+.badge{display:inline-block;border:1px solid var(--line);background:#ffffff08;border-radius:99px;padding:7px 13px;font-size:12px;color:#d9d9e2;margin-bottom:20px}
+h1{font-size:clamp(44px,7vw,76px);line-height:.98;letter-spacing:-3px;margin:0}.grad{background:linear-gradient(90deg,#fff,#ff75aa,#ae8cff);background-clip:text;-webkit-background-clip:text;color:transparent}
+.hero p{font-size:18px;color:var(--muted);max-width:590px;margin:23px 0 28px}.actions{display:flex;gap:12px;flex-wrap:wrap}.btn{padding:15px 22px}.primary{background:linear-gradient(135deg,var(--pink),var(--purple));box-shadow:0 12px 32px #ff3f8e33}.secondary{border:1px solid var(--line);background:#ffffff08}.price{margin-top:15px;color:var(--muted);font-size:13px}.price b{font-size:27px;color:#fff}
+.visual{position:relative}.photo{height:480px;border-radius:29px;border:1px solid var(--line);overflow:hidden;background:#17111f;box-shadow:0 25px 70px #0008;position:relative}.photo img{width:100%;height:100%;object-fit:cover;display:block;filter:saturate(.95)}
+.overlay{position:absolute;inset:0;background:linear-gradient(180deg,transparent 45%,#07070db8)}.caption{position:absolute;left:20px;right:20px;bottom:20px;padding:19px;border:1px solid var(--line);border-radius:18px;background:#08080dcc;backdrop-filter:blur(10px)}.caption small{color:#6ee7a0;font-weight:800}.caption h3{margin:5px 0 3px;font-size:24px}.caption p{margin:0;color:#aaaabd;font-size:13px}
+.float{position:absolute;background:#191923;border:1px solid var(--line);padding:10px 13px;border-radius:13px;font-size:12px;box-shadow:0 15px 40px #0008;z-index:2}.f1{right:-15px;top:25px}.f2{left:-18px;bottom:75px}
+section{padding:85px 0}.head{text-align:center;max-width:680px;margin:0 auto 42px}.head span{font-size:12px;color:#ff72a8;font-weight:900;letter-spacing:2px;text-transform:uppercase}.head h2{font-size:clamp(31px,4vw,47px);letter-spacing:-1.7px;margin:8px 0}.head p{color:var(--muted)}
+.cards{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}.card{padding:27px;border:1px solid var(--line);border-radius:21px;background:#ffffff06}.icon{font-size:22px;margin-bottom:15px}.card h3{margin:0 0 8px}.card p{margin:0;color:var(--muted);font-size:14px}
+.offer{border:1px solid var(--line);border-radius:28px;padding:42px;background:linear-gradient(135deg,#ff3f8e1c,#8b5cf61c);display:flex;justify-content:space-between;align-items:center;gap:25px}.offer h2{font-size:clamp(34px,5vw,54px);letter-spacing:-2px;margin:0}.offer p{color:var(--muted)}.offerbox{text-align:center;min-width:190px}.amount{font-size:60px;font-weight:950;line-height:1}.offerbox small{color:var(--muted)}.offerbox .btn{width:100%;margin-top:16px}
+.faq{max-width:780px;margin:auto}details{border-bottom:1px solid var(--line);padding:20px 0}summary{cursor:pointer;font-weight:800}details p{color:var(--muted);font-size:14px;margin:12px 0 0}
+footer{border-top:1px solid var(--line);padding:28px 0;color:#858594;font-size:12px}.foot{display:flex;justify-content:space-between;gap:15px}
+@media(max-width:800px){.grid{grid-template-columns:1fr}.visual{max-width:520px;margin:auto;width:100%}.cards{grid-template-columns:1fr}.offer{flex-direction:column;align-items:flex-start}.offerbox{width:230px}.foot{flex-direction:column;text-align:center}.hero{padding-top:120px}}
+</style>
 </head>
-
 <body>
-  <header>
-    <div class="container nav">
-      <a href="#" class="brand">
-        <span class="brand-mark" style="padding:0;overflow:hidden;border-style:solid;"><img src="https://images.pexels.com/photos/29065363/pexels-photo-29065363.jpeg?cs=srgb&dl=pexels-adarsh-mp-29065363.jpg&fm=jpg" alt="ZoyaVIP logo" style="width:100%;height:100%;object-fit:cover;display:block;"></span>
-        <span>ZoyaVIP</span>
-      </a>
-      <a class="nav-cta" href="https://t.me/zoyavip" target="_blank" rel="noopener">Join Telegram →</a>
-    </div>
-  </header>
+<header><div class="wrap nav">
+<a class="brand" href="#"><span class="logo"><img src="https://images.pexels.com/photos/29065363/pexels-photo-29065363.jpeg?cs=srgb&dl=pexels-adarsh-mp-29065363.jpg&fm=jpg" alt="ZoyaVIP"></span>ZoyaVIP</a>
+<a class="navbtn" href="https://t.me/zoyavip" target="_blank" rel="noopener">Join Telegram →</a>
+</div></header>
 
-  <main>
-    <section class="hero">
-      <div class="container hero-grid">
-        <div>
-          <div class="eyebrow"><span class="dot"></span> Private • Fun • 18+ Only</div>
-          <h1>Talk. Connect.<br><span class="gradient">Have Some Fun.</span></h1>
-          <p>
-            Looking for a private one-to-one video chat and a little excitement?
-            Connect through ZoyaVIP and enjoy a relaxed, personal conversation.
-          </p>
+<main>
+<section class="hero"><div class="wrap grid">
+<div>
+<div class="badge">✨ Connect • Chat • Discover</div>
+<h1>Meet people.<br><span class="grad">Start a chat.</span></h1>
+<p>ZoyaVIP makes it easy to connect through Telegram. Join the community, say hello and enjoy simple, friendly conversations.</p>
+<div class="actions"><a class="btn primary" href="https://t.me/zoyavip" target="_blank" rel="noopener">💬 Join on Telegram</a><a class="btn secondary" href="#offer">View Offer ↓</a></div>
+<div class="price"><b>₹69</b> starting offer</div>
+</div>
+<div class="visual">
+<div class="float f1">✨ Friendly conversations</div><div class="float f2">💬 Easy to connect</div>
+<div class="photo"><img src="https://images.pexels.com/photos/29065363/pexels-photo-29065363.jpeg?cs=srgb&dl=pexels-adarsh-mp-29065363.jpg&fm=jpg" alt="ZoyaVIP"><div class="overlay"></div>
+<div class="caption"><small>● AVAILABLE</small><h3>ZoyaVIP</h3><p>Connect and start a conversation on Telegram.</p></div></div>
+</div>
+</div></section>
 
-          <div class="actions">
-            <a class="btn btn-primary" href="https://t.me/zoyavip" target="_blank" rel="noopener">
-              💬 Chat on Telegram
-            </a>
-            <a class="btn btn-secondary" href="#offer">See Offer ↓</a>
-          </div>
+<section><div class="wrap"><div class="head"><span>Why ZoyaVIP</span><h2>Simple way to connect.</h2><p>Everything is designed to make starting a conversation quick and easy.</p></div>
+<div class="cards">
+<div class="card"><div class="icon">💬</div><h3>Easy Conversations</h3><p>Connect directly and enjoy a simple one-to-one conversation.</p></div>
+<div class="card"><div class="icon">✨</div><h3>Good Vibes</h3><p>A friendly space for comfortable and respectful conversations.</p></div>
+<div class="card"><div class="icon">⚡</div><h3>Quick to Join</h3><p>Tap the Telegram button and get started in a few seconds.</p></div>
+</div></div></section>
 
-          <div class="price"><strong>₹69</strong> to get started</div>
-        </div>
+<section id="offer"><div class="wrap"><div class="offer"><div><div class="badge">SPECIAL OFFER</div><h2>Ready to <span class="grad">connect?</span></h2><p>Get started with ZoyaVIP for just ₹69. Tap below to continue on Telegram.</p></div><div class="offerbox"><div class="amount">₹69</div><small>starting offer</small><a class="btn primary" href="https://t.me/zoyavip" target="_blank" rel="noopener">Get Started →</a></div></div></div></section>
 
-        <div class="visual">
-          <div class="floating float1">✨ Private conversation</div>
-          <div class="floating float2">🔒 Respectful & personal</div>
-          <div class="profile-card">
-            <div class="profile-placeholder"></div>
-            <div class="profile-info">
-              <div class="live">● AVAILABLE NOW</div>
-              <h3>ZoyaVIP</h3>
-              <p>Start a private conversation on Telegram.</p>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
+<section><div class="wrap"><div class="head"><span>FAQ</span><h2>Frequently asked questions</h2></div><div class="faq">
+<details><summary>How do I get started?</summary><p>Tap any Telegram button and open the ZoyaVIP Telegram profile to continue.</p></details>
+<details><summary>What is ZoyaVIP?</summary><p>ZoyaVIP is a simple way to connect and chat with people through Telegram.</p></details>
+<details><summary>What is the ₹69 offer?</summary><p>₹69 is the starting offer shown on this page. Please confirm the current price and terms on Telegram before paying.</p></details>
+<details><summary>Can I stop chatting whenever I want?</summary><p>Yes. You can stop the conversation whenever you want.</p></details>
+</div></div></section>
+</main>
 
-    <section>
-      <div class="container">
-        <div class="section-head">
-          <span>Why ZoyaVIP</span>
-          <h2>A private experience, without the awkwardness.</h2>
-          <p>Simple, direct and made for adults who want a fun one-to-one conversation.</p>
-        </div>
-
-        <div class="cards">
-          <div class="card">
-            <div class="icon">📹</div>
-            <h3>One-to-One Video Chat</h3>
-            <p>Enjoy a personal conversation instead of a crowded public chat.</p>
-          </div>
-          <div class="card">
-            <div class="icon">💗</div>
-            <h3>Good Vibes Only</h3>
-            <p>Keep it friendly, comfortable and respectful from the first hello.</p>
-          </div>
-          <div class="card">
-            <div class="icon">⚡</div>
-            <h3>Quick to Join</h3>
-            <p>Tap the Telegram button, connect and start your conversation.</p>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section id="offer">
-      <div class="container">
-        <div class="offer">
-          <div>
-            <div class="eyebrow">LIMITED-ENTRY OFFER</div>
-            <h2>Ready for a little <span class="gradient">private fun?</span></h2>
-            <p>Start your ZoyaVIP experience for just ₹69. Tap below and continue on Telegram.</p>
-          </div>
-          <div class="offer-price">
-            <div class="amount">₹69</div>
-            <small>starting price</small>
-            <a class="btn btn-primary" href="https://t.me/zoyavip" target="_blank" rel="noopener">Get Started →</a>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section>
-      <div class="container">
-        <div class="section-head">
-          <span>FAQ</span>
-          <h2>Before you join</h2>
-        </div>
-        <div class="faq">
-          <details>
-            <summary>How do I get started?</summary>
-            <p>Tap any Telegram button on this page and open the ZoyaVIP Telegram profile to continue.</p>
-          </details>
-          <details>
-            <summary>Is this for adults?</summary>
-            <p>Yes. ZoyaVIP is intended for adults aged 18 and above.</p>
-          </details>
-          <details>
-            <summary>Is the ₹69 price for everyone?</summary>
-            <p>₹69 is presented as the starting offer on this landing page. Confirm the current price and terms on Telegram before paying.</p>
-          </details>
-          <details>
-            <summary>Can I leave whenever I want?</summary>
-            <p>Yes. You remain in control of your conversation and can stop or leave at any time.</p>
-          </details>
-        </div>
-      </div>
-    </section>
-  </main>
-
-  <footer>
-    <div class="container footer-row">
-      <div>© 2026 ZoyaVIP. All rights reserved.</div>
-      <div class="age">18+ • Adults only • Please be respectful</div>
-    </div>
-  </footer>
-
-  <script>
-    // Small entrance animation
-    document.addEventListener("DOMContentLoaded", () => {
-      document.querySelectorAll(".card").forEach((card, i) => {
-        card.style.opacity = "0";
-        card.style.transform = "translateY(12px)";
-        setTimeout(() => {
-          card.style.transition = "opacity .5s ease, transform .5s ease";
-          card.style.opacity = "1";
-          card.style.transform = "translateY(0)";
-        }, 120 * i);
-      });
-    });
-  </script>
+<footer><div class="wrap foot"><div>© 2026 ZoyaVIP. All rights reserved.</div><div>Please be respectful • Community guidelines apply</div></div></footer>
 </body>
 </html>
